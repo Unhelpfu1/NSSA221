@@ -10,19 +10,19 @@ os.system("clear")
 
 #Displays default gateway
 def display_default_gateway():
-    os.system("ip r | awk '{print $3}'")
+    os.system("ip r | grep 'default' | awk '{print $3}'")
 
-#
+#Ping default gateway
 def local_connectivity():
-    print("UNIMPLEMENTED")
+    os.system("ping " + display_default_gateway())
 
-#
+#Ping RIT DNS
 def remote_connectivity():
-    print("UNIMPLEMENTED")
+    os.system("ping 129.21.3.17")
 
-#
+#Ping Google
 def DNS_resolution():
-    print("UNIMPLEMENTED")
+    os.system("ping www.google.com")
 
 option = 0
 while(option != 5):
