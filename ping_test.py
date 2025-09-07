@@ -14,7 +14,7 @@ def display_default_gateway():
 
 #Ping default gateway
 def local_connectivity():
-    os.system("ping " str(display_default_gateway()))
+    os.system("ping " + str(display_default_gateway()))
 
 #Ping RIT DNS
 def remote_connectivity():
