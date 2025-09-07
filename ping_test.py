@@ -10,7 +10,7 @@ os.system("clear")
 
 #Displays default gateway
 def display_default_gateway():
-    os.system("ip r | grep 'default' | awk '{print $3}'")
+    return os.system("ip r | grep 'default' | awk '{print $3}'")
 
 #Ping default gateway
 def local_connectivity():
