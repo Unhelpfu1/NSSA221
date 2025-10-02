@@ -95,10 +95,16 @@ output+= "Number of processors:\t" + cpuProc + "\n"
 output+= "Number of cores:\t" + cpuCores + "\n"
 output+= "\n"
 
+# grab output from free command
+ramInfo = subprocess.run(args=["free", "-h"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+ramInfo = ramInfo[ramInfo.find("Mem:")+5:] # grab only the ram line
+ramTotal = ramInfo[:16].strip() # collect the first column
+ramAvail = ramInfo[28:41].strip() # collect the third column
+
 # Add variables to be printed
 output+= "Memory Information\n"
-output+= "Total RAM:\t\t\t"
-output+= "Available RAM:\t\t"
+output+= "Total RAM:\t\t\t" + ramTotal + "\n"
+output+= "Available RAM:\t\t" + ramAvail + "\n"
 
 #Print all collected info
 print(output)
