@@ -83,16 +83,16 @@ output+= "\n"
 # Get cpu info
 cpuInfo = subprocess.run(args=["cat", "/proc/cpuinfo"], stdout=subprocess.PIPE).stdout.decode('utf-8')
 cpuModel = cpuInfo[cpuInfo.find("model name"):] # get model name line only
-cpuModel = cpuModel[cpuModel.find(":")+1:cpuModel.find("\n")-1].strip() # move to data part only
+cpuModel = cpuModel[cpuModel.find(":")+1:cpuModel.find("\n")].strip() # move to data part only
 cpuProc = subprocess.run(args=["nproc", "--all"], stdout=subprocess.PIPE).stdout.decode('utf-8').replace("\n", "").strip() # get processors number
 cpuCores = cpuInfo[cpuInfo.find("cpu cores"):] # get cores number line only
-cpuCores = cpuCores[cpuCores.find(":")+1:].strip() # Collect only the final number
+cpuCores = cpuCores[cpuCores.find(":")+1:cpuInfo.find("\n")].strip() # Collect only the final number
 
 # Add variables to be printed
 output+= "Processor Information\n"
-output+= "CPU Model:\t\t\t" + cpuModel + "\n"
+output+= "CPU Model:\t\t" + cpuModel + "\n"
 output+= "Number of processors:\t" + cpuProc + "\n"
-output+= "Number of cores:\t\t" + cpuCores + "\n"
+output+= "Number of cores:\t" + cpuCores + "\n"
 output+= "\n"
 
 # Add variables to be printed
