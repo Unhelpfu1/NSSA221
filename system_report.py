@@ -6,7 +6,7 @@ import subprocess
 # Clear Terminal
 subprocess.run("clear")
 
-output = "\t\t\tSystem Report - " + subprocess.run(args=["date", "+%A %W, %Y"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+output = "\t\t\tSystem Report - " + subprocess.run(args=["date", "+%B %d, %Y"], stdout=subprocess.PIPE).stdout.decode('utf-8')
 
 # Find hostname through hostname command
 hostnameOutput = subprocess.run("hostname", stdout=subprocess.PIPE).stdout.decode('utf-8')
