@@ -1,11 +1,12 @@
 #! usr/bin/python3
 
-# Joshua Krogstad
-
-import platform
+# Joshua Krogstad, 10/2/25
 import subprocess
 
-output = "Device Information\n"
+# Clear Terminal
+subprocess.run("clear")
+
+output = "\t\t\tSystem Report - " + subprocess.run(args=["date", "'+%A %W, %Y'"], stdout=subprocess.PIPE).stdout.decode('utf-8')
 
 # Find hostname through hostname command
 hostnameOutput = subprocess.run("hostname", stdout=subprocess.PIPE).stdout.decode('utf-8')
@@ -13,6 +14,7 @@ hostnameOutput = hostnameOutput.replace("\n", "") # Remove newline character
 hostnameOutput = hostnameOutput.split(".", 1) # Split into hostname section and domain section
 
 # Add variables to be printed
+output+= "\n\nDevice Information\n"
 output+= "Hostname:\t\t" + hostnameOutput[0] + "\n"
 output+= "Domain:\t\t\t" + hostnameOutput[1] + "\n"
 output+="\n"
@@ -103,9 +105,12 @@ ramAvail = ramInfo[28:41].strip() # collect the third column
 
 # Add variables to be printed
 output+= "Memory Information\n"
-output+= "Total RAM:\t\t\t" + ramTotal + "\n"
+output+= "Total RAM:\t\t" + ramTotal + "\n"
 output+= "Available RAM:\t\t" + ramAvail + "\n"
 
 #Print all collected info
 print(output)
 #Save to file
+output+="\n"
+with open(hostnameOutput[0] + "_system_report.log", "w") as file:
+    file.write(output)
