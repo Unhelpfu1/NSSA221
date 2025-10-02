@@ -2,10 +2,6 @@
 
 # Joshua Krogstad
 
-#! usr/bin/python3
-
-# Joshua Krogstad
-
 import platform
 import subprocess
 
@@ -26,7 +22,9 @@ gate = subprocess.run(args=["netstat", "-rn"], stdout=subprocess.PIPE).stdout.de
 gate = gate.split("\n")
 gate = gate[2][16:32].strip()
 
-mask = subprocess.run(args=["ifconfig|awk",  "'/netmask/ {print $4}'"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+mask = subprocess.run(args=["ifconfig"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+mask.split("\n", 3)
+mask = mask[1]
 print(mask)
 
 output+= "Network Information\n"
