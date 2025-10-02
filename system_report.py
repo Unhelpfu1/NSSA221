@@ -41,15 +41,17 @@ output+= "\n"
 
 osInfo = subprocess.run(args=["cat", "/etc/os-release"], stdout=subprocess.PIPE).stdout.decode('utf-8')
 os = osInfo[osInfo.find("PRETTY_NAME=")+13:]
-os = os[:os.find("\n")]
+os = os[:os.find("\n")-1]
 
 osVer = osInfo[osInfo.find("VERSION_ID=")+12:]
-osVer = osVer[:osVer.find("\n")]
+osVer = osVer[:osVer.find("\n")-1]
+
+kernel = subprocess.run(args=["uname", "-r"], stdout=subprocess.PIPE).stdout.decode('utf-8')
 
 output+= "Operating System Information\n"
-output+= "Operating System:\t\t" + os + "\n"
+output+= "Operating System:\t" + os + "\n"
 output+= "OS Version:\t\t" + osVer + "\n"
-output+= "Kernel Version:\t\t" + "\n"
+output+= "Kernel Version:\t\t" + kernel + "\n"
 output+= "\n"
 
 output+= "Storage Information\n"
