@@ -28,6 +28,8 @@ mask = mask[mask.find("netmask")+8:mask.find("broadcast")-1].strip()
 dns = subprocess.run(args=["cat", "/etc/resolv.conf"], stdout=subprocess.PIPE).stdout.decode('utf-8')
 dns = dns.split("nameserver")
 print(dns)
+dns1 = dns[1].replace("\n", "").strip()
+dns2 = dns[2].replace("\n", "").strip()
 
 output+= "Network Information\n"
 output+= "IP Address:\t\t" + ipAddr[2] + "\n"
