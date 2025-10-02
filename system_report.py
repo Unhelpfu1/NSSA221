@@ -35,12 +35,16 @@ output+= "Network Information\n"
 output+= "IP Address:\t\t" + ipAddr[2] + "\n"
 output+= "Gateway:\t\t" + gate + "\n"
 output+= "Network Mask:\t\t" + mask + "\n"
-output+= "DNS1:\t\t" + dns1 + "\n"
-output+= "DNS2:\t\t" + dns2 + "\n"
+output+= "DNS1:\t\t\t" + dns1 + "\n"
+output+= "DNS2:\t\t\t" + dns2 + "\n"
 output+= "\n"
 
+osInfo = subprocess.run(args=["cat", "/etc/*-release"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+osInfo = osInfo.split("\n")
+os = osInfo[osInfo.__sizeof__()-1]
+
 output+= "Operating System Information\n"
-output+= "Operating System:\t\t"
+output+= "Operating System:\t\t" + os + "\n"
 output+= "OS Version:\t\t"
 output+= "Kernel Version:\t\t"
 output+= "\n"
