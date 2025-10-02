@@ -65,14 +65,20 @@ output+= "\n"
 
 # Get System Drive info
 systemDrive = subprocess.run(args=["df", "-BGiB", "--total"], stdout=subprocess.PIPE).stdout.decode('utf-8')
-systemDrive = systemDrive[systemDrive.find("total")+6:]
+systemDrive = systemDrive[systemDrive.find("total")+6:systemDrive.find("-")-1] # Find only the final 'total' line
+firstIndex = systemDrive.find("GiB") # Find index of first occurence of GiB
+driveTotal = systemDrive[firstIndex-5:firstIndex+3].strip() # Collect just the first entry
+secondIndex = systemDrive.find("GiB", firstIndex+1) # Use first to find 2nd occurence
+driveUsed = systemDrive[secondIndex-3:secondIndex+4].strip() # Collect Second entry
+thirdIndex = systemDrive.find("GiB", secondIndex+1) # Use 2nd to find 3rd occurence
+driveFree = systemDrive[thirdIndex-3:thirdIndex+4].strip() # Third entry
 print(systemDrive)
 
 # Add variables to be printed
 output+= "Storage Information\n"
-output+= "System Drive Total:\t"
-output+= "System Drive Used:\t"
-output+= "System Drive Free:\t"
+output+= "System Drive Total:\t" + driveTotal + "\n"
+output+= "System Drive Used:\t" + driveUsed + "\n"
+output+= "System Drive Free:\t" + driveFree + "\n"
 output+= "\n"
 
 # Add variables to be printed
