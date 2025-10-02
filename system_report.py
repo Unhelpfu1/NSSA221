@@ -27,7 +27,6 @@ mask = mask[mask.find("netmask")+8:mask.find("broadcast")-1].strip()
 
 dns = subprocess.run(args=["cat", "/etc/resolv.conf"], stdout=subprocess.PIPE).stdout.decode('utf-8')
 dns = dns.split("nameserver")
-print(dns)
 dns1 = dns[1].replace("\n", "").strip()
 dns2 = dns[2].replace("\n", "").strip()
 
@@ -53,6 +52,12 @@ output+= "Operating System:\t" + os + "\n"
 output+= "OS Version:\t\t" + osVer + "\n"
 output+= "Kernel Version:\t\t" + kernel + "\n"
 output+= "\n"
+
+systemDrive = subprocess.run(args=["df", "-BGiB", "--total"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+systemDrive.split("\n")
+systemDrive = systemDrive[len(systemDrive)-1]
+systemDrive = systemDrive[6:len(systemDrive)-2].strip()
+print(systemDrive)
 
 output+= "Storage Information\n"
 output+= "System Drive Total:\t"
