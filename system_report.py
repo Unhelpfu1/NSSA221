@@ -65,14 +65,13 @@ output+= "\n"
 
 # Get System Drive info
 systemDrive = subprocess.run(args=["df", "-BGiB", "--total"], stdout=subprocess.PIPE).stdout.decode('utf-8')
-systemDrive = systemDrive[systemDrive.find("total")+6:systemDrive.find("-")-1] # Find only the final 'total' line
+systemDrive = systemDrive[systemDrive.find("total")+6:] # Find only the final 'total' line
 firstIndex = systemDrive.find("GiB") # Find index of first occurence of GiB
 driveTotal = systemDrive[firstIndex-5:firstIndex+3].strip() # Collect just the first entry
 secondIndex = systemDrive.find("GiB", firstIndex+1) # Use first to find 2nd occurence
 driveUsed = systemDrive[secondIndex-3:secondIndex+4].strip() # Collect Second entry
 thirdIndex = systemDrive.find("GiB", secondIndex+1) # Use 2nd to find 3rd occurence
 driveFree = systemDrive[thirdIndex-3:thirdIndex+4].strip() # Third entry
-print(systemDrive)
 
 # Add variables to be printed
 output+= "Storage Information\n"
@@ -81,11 +80,19 @@ output+= "System Drive Used:\t" + driveUsed + "\n"
 output+= "System Drive Free:\t" + driveFree + "\n"
 output+= "\n"
 
+# Get cpu info
+cpuInfo = subprocess.run(args=["cat", "/proc/cpuinfo"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+cpuModel = cpuInfo[cpuInfo.find("model name"):] # get model name line only
+cpuModel = cpuModel[cpuModel.find(":")+1:cpuModel.find("\n")-1].strip() # move to data part only
+cpuProc = subprocess.run(args=["nproc", "--all"], stdout=subprocess.PIPE).stdout.decode('utf-8').replace("\n", "").strip() # get processors number
+cpuCores = cpuInfo[cpuInfo.find("cpu cores"):] # get cores number line only
+cpuCores = cpuCores[cpuCores.find(":")+1:].strip() # Collect only the final number
+
 # Add variables to be printed
 output+= "Processor Information\n"
-output+= "CPU Model:\t\t\t"
-output+= "Number of processors:\t"
-output+= "Number of cores:\t\t"
+output+= "CPU Model:\t\t\t" + cpuModel + "\n"
+output+= "Number of processors:\t" + cpuProc + "\n"
+output+= "Number of cores:\t\t" + cpuCores + "\n"
 output+= "\n"
 
 # Add variables to be printed
