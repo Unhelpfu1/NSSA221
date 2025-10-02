@@ -23,7 +23,7 @@ gate = gate.split("\n")
 gate = gate[2][16:32].strip()
 
 mask = subprocess.run(args=["ifconfig"], stdout=subprocess.PIPE).stdout.decode('utf-8')
-mask = [mask.find("netmask"):]
+mask = mask[mask.find("netmask")+8:mask.find("broadcast")-1]
 print(mask)
 
 output+= "Network Information\n"
