@@ -23,13 +23,16 @@ gate = gate.split("\n")
 gate = gate[2][16:32].strip()
 
 mask = subprocess.run(args=["ifconfig"], stdout=subprocess.PIPE).stdout.decode('utf-8')
-mask = mask[mask.find("netmask")+8:mask.find("broadcast")-1]
-print(mask)
+mask = mask[mask.find("netmask")+8:mask.find("broadcast")-1].strip()
+
+dns = subprocess.run(args=["cat", "/etc/resolv.conf"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+dns = dns.split("nameserver")
+print(dns)
 
 output+= "Network Information\n"
 output+= "IP Address:\t\t" + ipAddr[2] + "\n"
 output+= "Gateway:\t\t" + gate + "\n"
-output+= "Network Mask:\t\t"
+output+= "Network Mask:\t\t" + mask + "\n"
 output+= "DNS1:\t\t"
 output+= "DNS2:\t\t"
 output+= "\n"
