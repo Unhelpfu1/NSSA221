@@ -7,29 +7,36 @@ import subprocess
 
 output = "Device Information\n"
 
+# Find hostname through hostname command
 hostnameOutput = subprocess.run("hostname", stdout=subprocess.PIPE).stdout.decode('utf-8')
-hostnameOutput = hostnameOutput.replace("\n", "")
-hostnameOutput = hostnameOutput.split(".", 1)
+hostnameOutput = hostnameOutput.replace("\n", "") # Remove newline character
+hostnameOutput = hostnameOutput.split(".", 1) # Split into hostname section and domain section
 
+# Add variables to be printed
 output+= "Hostname:\t\t" + hostnameOutput[0] + "\n"
 output+= "Domain:\t\t\t" + hostnameOutput[1] + "\n"
 output+="\n"
 
+# Run new commands to find ip address
 ipAddr = subprocess.run(args=["ip", "route"], stdout=subprocess.PIPE).stdout.decode('utf-8')
-ipAddr = ipAddr.split(" ", 4)
+ipAddr = ipAddr.split(" ", 4) # Split by spaces
 
+# Get routing table with numbers
 gate = subprocess.run(args=["netstat", "-rn"], stdout=subprocess.PIPE).stdout.decode('utf-8')
-gate = gate.split("\n")
-gate = gate[2][16:32].strip()
+gate = gate.split("\n") # Remove newline character
+gate = gate[2][16:32].strip() # Find location of newline, split into before and after possible location of gateway, strip
 
+# run ifconfig
 mask = subprocess.run(args=["ifconfig"], stdout=subprocess.PIPE).stdout.decode('utf-8')
-mask = mask[mask.find("netmask")+8:mask.find("broadcast")-1].strip()
+mask = mask[mask.find("netmask")+8:mask.find("broadcast")-1].strip() # split into after netmask and before broadcast, strip
 
+# print resolve.conf
 dns = subprocess.run(args=["cat", "/etc/resolv.conf"], stdout=subprocess.PIPE).stdout.decode('utf-8')
-dns = dns.split("nameserver")
-dns1 = dns[1].replace("\n", "").strip()
-dns2 = dns[2].replace("\n", "").strip()
+dns = dns.split("nameserver") # split where it says nameserver
+dns1 = dns[1].replace("\n", "").strip() # Use first nameserver, remove newline, strip
+dns2 = dns[2].replace("\n", "").strip() # Same for 2nd
 
+# Add variables to be printed
 output+= "Network Information\n"
 output+= "IP Address:\t\t" + ipAddr[2] + "\n"
 output+= "Gateway:\t\t" + gate + "\n"
@@ -38,41 +45,48 @@ output+= "DNS1:\t\t\t" + dns1 + "\n"
 output+= "DNS2:\t\t\t" + dns2 + "\n"
 output+= "\n"
 
+# Print release info
 osInfo = subprocess.run(args=["cat", "/etc/os-release"], stdout=subprocess.PIPE).stdout.decode('utf-8')
-os = osInfo[osInfo.find("PRETTY_NAME=")+13:]
-os = os[:os.find("\n")-1]
+os = osInfo[osInfo.find("PRETTY_NAME=")+13:] # Find "Pretty Name" and cut everything before it
+os = os[:os.find("\n")-1] # Cut everything after the end of Pretty name
 
-osVer = osInfo[osInfo.find("VERSION_ID=")+12:]
-osVer = osVer[:osVer.find("\n")-1]
+osVer = osInfo[osInfo.find("VERSION_ID=")+12:] # Same for version ID
+osVer = osVer[:osVer.find("\n")-1] # Cut end of VerID
 
-kernel = subprocess.run(args=["uname", "-r"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+# Get kernel version
+kernel = subprocess.run(args=["uname", "-r"], stdout=subprocess.PIPE).stdout.decode('utf-8').replace("\n", "")
 
+# Add variables to be printed
 output+= "Operating System Information\n"
 output+= "Operating System:\t" + os + "\n"
 output+= "OS Version:\t\t" + osVer + "\n"
 output+= "Kernel Version:\t\t" + kernel + "\n"
 output+= "\n"
 
+# Get System Drive info
 systemDrive = subprocess.run(args=["df", "-BGiB", "--total"], stdout=subprocess.PIPE).stdout.decode('utf-8')
-systemDrive.split("\n")
-systemDrive = systemDrive[len(systemDrive)-1]
-systemDrive = systemDrive[6:len(systemDrive)-2].strip()
+systemDrive = systemDrive[systemDrive.find("total")+6:]
 print(systemDrive)
 
+# Add variables to be printed
 output+= "Storage Information\n"
 output+= "System Drive Total:\t"
 output+= "System Drive Used:\t"
 output+= "System Drive Free:\t"
 output+= "\n"
 
+# Add variables to be printed
 output+= "Processor Information\n"
 output+= "CPU Model:\t\t\t"
 output+= "Number of processors:\t"
 output+= "Number of cores:\t\t"
 output+= "\n"
 
+# Add variables to be printed
 output+= "Memory Information\n"
 output+= "Total RAM:\t\t\t"
 output+= "Available RAM:\t\t"
 
+#Print all collected info
 print(output)
+#Save to file
