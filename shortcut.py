@@ -5,7 +5,7 @@
 
 import subprocess
 
-input = ""
+userInput = ""
 
 while (True):
     #List all options
@@ -15,7 +15,7 @@ while (True):
     print("[4] Quit")
 
     #prompt user input
-    input = input("Select an option: ")
+    userInput = input("Select an option: ")
 
     #if 1, run createSymLink
 
@@ -24,5 +24,5 @@ while (True):
     #if 3, run symLinkReport
 
     #if 4 or quit, quit
-    if (input==4 | input.lower()=="quit"):
+    if (userInput=="4" or userInput.lower()=="quit"):
         quit()
