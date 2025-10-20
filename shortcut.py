@@ -9,7 +9,7 @@ import os
 def createSymLink():
     filePath = input("Enter filepath to make symbolic link to: ")
     fileName = input("Enter name for symbolic link: ")
-    os.system("ln -s " + filePath + "$HOME/Desktop/" + fileName)
+    os.system("ln -s " + filePath + " $HOME/Desktop/" + fileName)
 
 def deleteSymLink():
     print("NOT IMPLEMENTED")
