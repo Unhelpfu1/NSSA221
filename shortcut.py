@@ -32,7 +32,7 @@ def selectFromMultiple(optionList):
         #Return the value of selected choice
         return optionList[int(choice)-1]
     #If choice is invalid, loop through again
-    print("\tInvalid choice")
+    print("\tInvalid choice, please try again")
     return selectFromMultiple(optionList)
 
 #Create symbolic link to selected file on desktop
@@ -42,7 +42,7 @@ def createSymLink():
     fullPaths = findFile(file)
     #No matches
     if (len(fullPaths) == 0):
-        print("\tFile not found")
+        print("\tFile not found, please check the file name and try again")
         return
     #One match
     if (len(fullPaths) == 1):
@@ -52,11 +52,18 @@ def createSymLink():
         filePath = selectFromMultiple(fullPaths)
     fileName = input("Enter name for symbolic link: ")
     #Create the symbolic link
-    os.system("ln -s " + filePath + " $HOME/Desktop/" + fileName)
+    os.symlink(filePath, "$HOME/Desktop/" + fileName)
 
+#Return a list of all symbolic links on the user desktop
+def findAllLinks():
+    print("NOT IMPLEMENTED")
+    #use walk to get all files in 
+
+#Delete a symbolic link
 def deleteSymLink():
     print("NOT IMPLEMENTED")
 
+#Create a file
 def symLinkReport():
     print("NOT IMPLEMENTED")
 
