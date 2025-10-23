@@ -56,7 +56,7 @@ def createSymLink():
 #Return a list of all symbolic links on the user desktop
 def findAllLinks():
     #Read user desktop directory
-    allItems = os.listdir(os.path.expanduser("~/Desktop"))
+    allItems = os.scandir(os.path.expanduser("~/Desktop"))
     allLinks = []
     #Sort symlinks from non symlinks
     for item in allItems:
