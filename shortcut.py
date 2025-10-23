@@ -8,8 +8,8 @@ import os
 
 #Search for file given filename
 def findFile(fileName):
-    files = subprocess.run(args=["sudo", "find", "/", "-name", "\""+fileName+"\""], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    print(files)
+    files = subprocess.run(args=["sudo", "find", "/", "-name", "\""+fileName+"\""], capture_output=True, text=True)
+    files = files.stdout
     #to return later
     paths = []
     #for each line found
@@ -25,6 +25,7 @@ def selectFromMultiple(optionList):
     #Print all options
     for i in range(len(optionList)):
         print("[" + i+1 + "] " + optionList[i])
+    choice = -1
     choice = input("Please select the file you want to create a shortcut for: ")
     #If choice is within given range
     if (choice > 0 & choice <= len(optionList)):
@@ -65,7 +66,7 @@ userInput = ""
 while (True):
     
     #clear terminal each loop
-    os.system("clear")
+    #os.system("clear")
 
     #List all options
     print("[1] Create a symbolic link")
