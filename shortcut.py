@@ -52,16 +52,19 @@ def createSymLink():
         filePath = selectFromMultiple(fullPaths)
     fileName = input("Enter name for symbolic link: ")
     #Create the symbolic link
-    os.symlink(filePath, "$HOME/Desktop/" + fileName)
+    os.system("ln -s " + filePath + " $HOME/Desktop/" + fileName)
 
 #Return a list of all symbolic links on the user desktop
 def findAllLinks():
-    print("NOT IMPLEMENTED")
-    #use walk to get all files in 
+    allFiles = os.listdir("~/Desktop/")
+    print(allFiles)
 
 #Delete a symbolic link
 def deleteSymLink():
-    print("NOT IMPLEMENTED")
+    #Find all symbolic links
+    allLinks = findAllLinks()
+    #Allow user to select which link to delete (add a "Back" option in list)
+    #Delete that link
 
 #Create a file
 def symLinkReport():
