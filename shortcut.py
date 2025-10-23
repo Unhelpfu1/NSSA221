@@ -6,8 +6,13 @@
 import subprocess
 import os
 
+def findFile(fileName):
+    files = os.system("sudo find / -name \"" + fileName+ "\"")
+    print(files)
+
 def createSymLink():
     filePath = input("Enter filepath to make symbolic link to: ")
+    findFile(filePath)
     fileName = input("Enter name for symbolic link: ")
     os.system("ln -s " + filePath + " $HOME/Desktop/" + fileName)
 
