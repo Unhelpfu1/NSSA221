@@ -55,14 +55,22 @@ def createSymLink():
 
 #Return a list of all symbolic links on the user desktop
 def findAllLinks():
-    allFiles = os.listdir(os.path.expanduser("~/Desktop"))
-    print(allFiles)
+    #Read user desktop directory
+    allItems = os.listdir(os.path.expanduser("~/Desktop"))
+    allLinks = []
+    #Sort symlinks from non symlinks
+    for item in allItems:
+        if (item.is_symlink()):
+            allLinks.append(item)
+    print(allLinks)
 
 #Delete a symbolic link
 def deleteSymLink():
     #Find all symbolic links
     allLinks = findAllLinks()
     #Allow user to select which link to delete (add a "Back" option in list)
+    allLinks.append("Back")
+    choice = selectFromMultiple(allLinks)
     #Delete that link
 
 #Create a file
