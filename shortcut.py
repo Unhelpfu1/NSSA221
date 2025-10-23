@@ -6,14 +6,53 @@
 import subprocess
 import os
 
+#Search for file given filename
 def findFile(fileName):
     files = os.system("sudo find / -name \"" + fileName+ "\"")
     print(files)
+    #to return later
+    paths = []
+    #for each line found
+    for line in files:
+        #if line is not empty and starts with / filepath
+        if (line!="" & line[0]=="/"):
+            paths.append(line)
+    
+    return paths
 
+#Select one from a list of multiple items
+def selectFromMultiple(optionList):
+    print("Multiple files with the provided name were found:")
+    #Print all options
+    for i in range(len(optionList)):
+        print("[" + i+1 + "] " + optionList[i])
+    
+    choice = input("Please select the file you want to create a shortcut for: ")
+    #If choice is within given range
+    if (choice > 0 & choice <= len(optionList)):
+        #Return the value of selected choice
+        return optionList[choice-1]
+    #If choice is invalid, loop through again
+    print("\tInvalid choice")
+    return selectFromMultiple(optionList)
+
+#Create symbolic link to selected file on desktop
 def createSymLink():
-    filePath = input("Enter filepath to make symbolic link to: ")
-    findFile(filePath)
+    file = input("Enter filepath to make symbolic link to: ")
+    #Find all valid filepaths with same filename
+    fullPaths = findFile(file)
+    #No matches
+    if (len(fullPaths) == 0):
+        print("\tFile not found")
+        return
+    #One match
+    if (len(fullPaths) == 1):
+        filePath = fullPaths[0]
+    #Multiple matches
+    if (len(fullPaths) > 1):
+        filePath = selectFromMultiple(fullPaths)
     fileName = input("Enter name for symbolic link: ")
+    #Create the symbolic link
     os.system("ln -s " + filePath + " $HOME/Desktop/" + fileName)
 
 def deleteSymLink():
