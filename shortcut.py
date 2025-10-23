@@ -8,15 +8,15 @@ import os
 
 #Search for file given filename
 def findFile(fileName):
-    files = subprocess.run(args=["sudo", "find", "/", "-name", "\""+fileName+"\""], capture_output=True, text=True)
-    files = files.stdout
-    #to return later
     paths = []
-    #for each line found
-    for line in files:
-        #if line is not empty and starts with / filepath
-        if (line!="" & line[0]=="/"):
-            paths.append(line)
+    #Ignores directories user does not have access to
+    #Recursively search every directory
+    for dirPath, dirNames, fileNames in os.walk('/'):
+        for name in fileNames:
+            #If a matching filename is found
+            if (name==fileName):
+                #Add full path of file to paths
+                paths.append(dirPath + "/" + name)
     return paths
 
 #Select one from a list of multiple items
