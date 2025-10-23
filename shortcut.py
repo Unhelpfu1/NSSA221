@@ -3,7 +3,7 @@
 #Joshua Krogstad
 #10/24/2025
 
-import subprocess
+import pathlib
 import os
 
 #Search for file given filename
@@ -56,7 +56,7 @@ def createSymLink():
 
 #Return a list of all symbolic links on the user desktop
 def findAllLinks():
-    allFiles = os.listdir("~/Desktop/")
+    allFiles = os.listdir(pathlib.Path.home() + "/Desktop")
     print(allFiles)
 
 #Delete a symbolic link
