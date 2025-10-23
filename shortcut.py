@@ -20,14 +20,13 @@ def findFile(fileName):
 
 #Select one from a list of multiple items
 def selectFromMultiple(optionList):
-    print("Multiple files with the provided name were found:")
     #Print all options
     for i in range(len(optionList)):
         print("[" + str(i+1) + "] " + optionList[i])
     choice = -1
-    choice = input("Please select the file you want to create a shortcut for: ")
+    choice = input("Please select the file you would like to interact with: ")
     #If choice is within given range
-    if (int(choice) > 0 & int(choice) <= len(optionList)):
+    if (int(choice) > 0 and int(choice) <= len(optionList)):
         #Return the value of selected choice
         return optionList[int(choice)-1]
     #If choice is invalid, loop through again
@@ -61,8 +60,9 @@ def findAllLinks():
     #Sort symlinks from non symlinks
     for item in allItems:
         if (item.is_symlink()):
-            allLinks.append(item)
+            allLinks.append(item.path)
     print(allLinks)
+    return allLinks
 
 #Delete a symbolic link
 def deleteSymLink():
@@ -72,6 +72,7 @@ def deleteSymLink():
     allLinks.append("Back")
     choice = selectFromMultiple(allLinks)
     #Delete that link
+#os.readlink to find destination of symlink
 
 #Create a file
 def symLinkReport():
