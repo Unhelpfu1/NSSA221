@@ -8,7 +8,7 @@ import os
 
 #Search for file given filename
 def findFile(fileName):
-    files = os.system("sudo find / -name \"" + fileName+ "\"")
+    files = subprocess.run(args=["sudo", "find", "/", "-name", "\""+fileName+"\""], stdout=subprocess.PIPE).stdout.decode('utf-8')
     print(files)
     #to return later
     paths = []
@@ -17,7 +17,6 @@ def findFile(fileName):
         #if line is not empty and starts with / filepath
         if (line!="" & line[0]=="/"):
             paths.append(line)
-    
     return paths
 
 #Select one from a list of multiple items
@@ -26,7 +25,6 @@ def selectFromMultiple(optionList):
     #Print all options
     for i in range(len(optionList)):
         print("[" + i+1 + "] " + optionList[i])
-    
     choice = input("Please select the file you want to create a shortcut for: ")
     #If choice is within given range
     if (choice > 0 & choice <= len(optionList)):
