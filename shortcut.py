@@ -24,13 +24,13 @@ def selectFromMultiple(optionList):
     print("Multiple files with the provided name were found:")
     #Print all options
     for i in range(len(optionList)):
-        print("[" + i+1 + "] " + optionList[i])
+        print("[" + str(i+1) + "] " + optionList[i])
     choice = -1
     choice = input("Please select the file you want to create a shortcut for: ")
     #If choice is within given range
-    if (choice > 0 & choice <= len(optionList)):
+    if (int(choice) > 0 & int(choice) <= len(optionList)):
         #Return the value of selected choice
-        return optionList[choice-1]
+        return optionList[int(choice)-1]
     #If choice is invalid, loop through again
     print("\tInvalid choice")
     return selectFromMultiple(optionList)
