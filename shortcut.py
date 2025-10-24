@@ -1,10 +1,10 @@
-#!usr/bin/python3
+#!/usr/bin/python3
 
 #Joshua Krogstad
 #10/24/2025
 
 import os
-import datetime
+from datetime import datetime
 
 #Search for file given filename
 def findFile(file_name):
@@ -62,7 +62,6 @@ def findAllLinks():
     for item in all_items:
         if (item.is_symlink()):
             all_links.append(item.path)
-    print(all_links)
     return all_links
 
 #Delete a symbolic link
