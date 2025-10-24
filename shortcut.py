@@ -101,7 +101,7 @@ os.system("clear")
 while (True):
     
     #print cwd
-    print("Current directory: " + os.system("pwd"))
+    print("Current directory: " + os.getcwd())
 
     #List all options
     print("[1] Create a symbolic link")
@@ -128,3 +128,6 @@ while (True):
     if (user_input=="4" or user_input.lower()=="quit"):
         print("\tQuitting...")
         quit()
+
+    #add newline for readability
+    print()
