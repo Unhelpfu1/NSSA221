@@ -88,7 +88,7 @@ def symLinkReport():
         report += link + " -> " + os.readlink(link) + "\n"
     #save report to new file in home directory
     new_filename = "symLinkReport_" + date_string
-    with os.open(new_filename, 'w') as file:
+    with open(new_filename, 'w') as file:
         file.write(report)
 
 user_input = ""
