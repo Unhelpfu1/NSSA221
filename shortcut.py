@@ -85,18 +85,23 @@ def symLinkReport():
     report = "Symbolic Link Report\t-\t" + date_string + "\n"
     #add link to list, then "-> <destination>"
     for link in all_links:
-        report += link + " -> " + os.readlink(link) + "\n"
+        report += link + " \t-> " + os.readlink(link) + "\n"
+    #write total lines
+    report += "Total links on desktop: " + str(len(all_links))
     #save report to new file in home directory
-    new_filename = "symLinkReport_" + date_string
+    new_filename = "symLinkReport_" + date_string + ".log"
     with open(new_filename, 'w') as file:
         file.write(report)
 
 user_input = ""
 
+#clear terminal at start
+os.system("clear")
+
 while (True):
     
-    #clear terminal each loop
-    os.system("clear")
+    #print cwd
+    print("Current directory: " + os.system("pwd"))
 
     #List all options
     print("[1] Create a symbolic link")
