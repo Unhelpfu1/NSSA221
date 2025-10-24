@@ -4,87 +4,100 @@
 #10/24/2025
 
 import os
+import datetime
 
 #Search for file given filename
-def findFile(fileName):
+def findFile(file_name):
     paths = []
     #Ignores directories user does not have access to
     #Recursively search every directory
-    for dirPath, dirNames, fileNames in os.walk('/'):
-        for name in fileNames:
+    for dir_path, dir_names, file_names in os.walk('/'):
+        for name in file_names:
             #If a matching filename is found
-            if (name==fileName):
+            if (name==file_name):
                 #Add full path of file to paths
-                paths.append(dirPath + "/" + name)
+                paths.append(dir_path + "/" + name)
     return paths
 
 #Select one from a list of multiple items
-def selectFromMultiple(optionList):
+def selectFromMultiple(option_list):
     #Print all options
-    for i in range(len(optionList)):
-        print("[" + str(i+1) + "] " + optionList[i])
+    for i in range(len(option_list)):
+        print("[" + str(i+1) + "] " + option_list[i])
     choice = -1
     choice = input("Please select the file you would like to interact with: ")
     #If choice is within given range
-    if (int(choice) > 0 and int(choice) <= len(optionList)):
+    if (int(choice) > 0 and int(choice) <= len(option_list)):
         #Return the value of selected choice
-        return optionList[int(choice)-1]
+        return option_list[int(choice)-1]
     #If choice is invalid, loop through again
     print("\tInvalid choice, please try again")
-    return selectFromMultiple(optionList)
+    return selectFromMultiple(option_list)
 
 #Create symbolic link to selected file on desktop
 def createSymLink():
     file = input("Enter filepath to make symbolic link to: ")
     #Find all valid filepaths with same filename
-    fullPaths = findFile(file)
+    full_paths = findFile(file)
     #No matches
-    if (len(fullPaths) == 0):
+    if (len(full_paths) == 0):
         print("\tFile not found, please check the file name and try again")
         return
     #One match
-    if (len(fullPaths) == 1):
-        filePath = fullPaths[0]
+    if (len(full_paths) == 1):
+        file_path = full_paths[0]
     #Multiple matches
-    if (len(fullPaths) > 1):
-        filePath = selectFromMultiple(fullPaths)
-    fileName = input("Enter name for symbolic link: ")
+    if (len(full_paths) > 1):
+        file_path = selectFromMultiple(full_paths)
+    file_name = input("Enter name for symbolic link: ")
     #Create the symbolic link
-    os.system("ln -s " + filePath + " $HOME/Desktop/" + fileName)
+    os.system("ln -s " + file_path + " $HOME/Desktop/" + file_name)
 
 #Return a list of all symbolic links on the user desktop
 def findAllLinks():
     #Read user desktop directory
-    allItems = os.scandir(os.path.expanduser("~/Desktop"))
-    allLinks = []
+    all_items = os.scandir(os.path.expanduser("~/Desktop"))
+    all_links = []
     #Sort symlinks from non symlinks
-    for item in allItems:
+    for item in all_items:
         if (item.is_symlink()):
-            allLinks.append(item.path)
-    print(allLinks)
-    return allLinks
+            all_links.append(item.path)
+    print(all_links)
+    return all_links
 
 #Delete a symbolic link
 def deleteSymLink():
     #Find all symbolic links
-    allLinks = findAllLinks()
+    all_links = findAllLinks()
     #Allow user to select which link to delete (add a "Back" option in list)
-    allLinks.append("Back")
-    choice = selectFromMultiple(allLinks)
+    all_links.append("Back")
+    choice = selectFromMultiple(all_links)
     #Delete that link
+    if (choice != "Back"):
+        os.system("rm " + choice)
 #os.readlink to find destination of symlink
 
-#Create a file
+#Create a file with all current links on desktop in it
 def symLinkReport():
-    print("NOT IMPLEMENTED")
+    #Get all links
+    all_links = findAllLinks()
+    #Create Report and add header
+    date_string = datetime.today().strftime('%Y-%m-%d;%H:%M:%S')
+    report = "Symbolic Link Report\t-\t" + date_string + "\n"
+    #add link to list, then "-> <destination>"
+    for link in all_links:
+        report += link + " -> " + os.readlink(link) + "\n"
+    #save report to new file in home directory
+    new_filename = "symLinkReport_" + date_string
+    with os.open(new_filename, 'w') as file:
+        file.write(report)
 
-
-userInput = ""
+user_input = ""
 
 while (True):
     
     #clear terminal each loop
-    #os.system("clear")
+    os.system("clear")
 
     #List all options
     print("[1] Create a symbolic link")
@@ -93,21 +106,21 @@ while (True):
     print("[4] Quit")
 
     #prompt user input
-    userInput = input("Select an option: ")
+    user_input = input("Select an option: ")
 
     #if 1, run createSymLink
-    if (userInput=="1"):
+    if (user_input=="1"):
         createSymLink()
 
     #if 2, run deleteSymLink
-    if (userInput=="2"):
+    if (user_input=="2"):
         deleteSymLink()
 
     #if 3, run symLinkReport
-    if (userInput=="3"):
+    if (user_input=="3"):
         symLinkReport()
 
     #if 4 or quit, quit
-    if (userInput=="4" or userInput.lower()=="quit"):
+    if (user_input=="4" or user_input.lower()=="quit"):
         print("\tQuitting...")
         quit()
