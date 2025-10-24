@@ -87,7 +87,7 @@ def symLinkReport():
     for link in all_links:
         report += link + " \t-> " + os.readlink(link) + "\n"
     #write total lines
-    report += "Total links on desktop: " + str(len(all_links) + "\n")
+    report += "Total links on desktop: " + str(len(all_links)) + "\n"
     #save report to new file in home directory
     new_filename = "symLinkReport_" + date_string + ".log"
     with open(new_filename, 'w') as file:
