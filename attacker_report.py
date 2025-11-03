@@ -28,3 +28,10 @@ for entry in open("/home/student/Downloads/syslog.log"):
       ip_appearances[ip_address] = 1
 
 print(ip_appearances) # DEBUG
+
+test_country = geolite2.lookup('8.8.8.8') # DEBUG
+print(test_country.country) # DEBUG
+
+sorting_list = []
+for ip in ip_appearances:
+  print()
