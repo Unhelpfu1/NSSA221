@@ -5,6 +5,7 @@
 from geoip import geolite2
 import os
 import re
+from datetime import datetime
 
 # Clear terminal
 os.system("clear")
@@ -32,8 +33,11 @@ for entry in open("/home/student/Downloads/syslog.log"):
 #test_country = geolite2.lookup('8.8.8.8') # DEBUG
 #print(test_country.country) # DEBUG
 
+# Set up report title and date
+to_print = "Attacker Report - " + datetime.today().strftime('%B %d, %Y') + "\n\n"
+
 # Set up headers of list to be printed
-to_print = "COUNT\tIP ADDRESS\tCOUNTRY\n"
+to_print += "COUNT\tIP ADDRESS\tCOUNTRY\n"
 # Sort by number of appearances
 for ip_address in sorted(ip_appearances.items(), key=lambda kv: (kv[1], kv[0])):
   # If failed logins >= 10
