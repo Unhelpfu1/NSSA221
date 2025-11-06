@@ -32,6 +32,14 @@ print(ip_appearances) # DEBUG
 test_country = geolite2.lookup('8.8.8.8') # DEBUG
 print(test_country.country) # DEBUG
 
-sorting_list = []
-for ip in ip_appearances:
-  print()
+# Set up headers of list to be printed
+to_print = "COUNT\tIP ADDRESS\tCOUNTRY\n"
+# Sort by number of appearances
+for key in sorted(ip_appearances):
+  # If failed logins >= 10
+  if (ip_appearances[key] >= 10):
+    # Add num failed logins, source ip, and ip country to print
+    to_print += ip_appearances[key] + "\t" + key + "\t" + geolite2.lookup(key).country + "\n"
+
+# Print the chart made above
+print(to_print)
